@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Sort Puzzle - Adsterra Monetized</title>
+    
+    <!-- Adsterra Social Bar / Native Banner Integration -->
+    <script async="async" data-cfasync="false" src="https://pl31539143.profitableratecpmnetwork.com/55746ba7485caf30b218505cb537bed7/invoke.js"></script>
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%);
+            --panel-bg: rgba(255, 255, 255, 0.05);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --accent-color: #4e54c8;
+            --accent-hover: #8f94fb;
+            --danger-color: #ff4757;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* Ad Banner Top */
+        .ad-banner-top {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(0,0,0,0.2);
+            padding: 5px 0;
+            min-height: 60px;
+            align-items: center;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #00dbde, #fc00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .level-info {
+            font-size: 1.1rem;
+            color: #a4b0be;
+        }
+
+        /* Tubes Grid */
+        .tubes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .tube {
+            width: 55px;
+            height: 180px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            border-top: none;
+            border-radius: 0 0 25px 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .tube.selected {
+            transform: translateY(-15px);
+            border-color: #00dbde;
+            box-shadow: 0 10px 20px rgba(0, 219, 222, 0.3);
+        }
+
+        .color-unit {
+            width: 100%;
+            height: 25%;
+            transition: height 0.3s ease;
+        }
+
+        .color-unit:first-child {
+            border-radius: 0 0 22px 22px;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Win Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #2f3542;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #2ed573;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #ced6e0;
+        }
+
+        /* Ad Box Styling */
+        .native-ad-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.2);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ad Banner Bottom */
+        .ad-banner-bottom {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background: rgba(0,0,0,0.2);
+            padding: 5px 0;
+            min-height: 60px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Adsterra Banner Ad (Top 320x50) -->
+    <div class="ad-banner-top">
+        <script>
+          atOptions = {
+            'key' : '2d64ab87de77d08d8a4b7e73d658f5de',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/2d64ab87de77d08d8a4b7e73d658f5de/invoke.js"></script>
+    </div>
+
+    <div class="game-container">
+        <header>
+            <h1>Water Sort Puzzle</h1>
+            <div class="level-info" id="levelIndicator">Level 1</div>
+        </header>
+
+        <div class="tubes-grid" id="tubesGrid">
+            <!-- Tubes injected via JS -->
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="undoBtn" onclick="undoMove()">Undo</button>
+            <button class="btn" id="restartBtn" onclick="restartLevel()">Restart</button>
+            <button class="btn btn-primary" onclick="skipLevel()">Next Level</button>
+        </div>
+    </div>
+
+    <!-- Adsterra Code Integration Area (Middle/Native) -->
+    <div style="width: 100%; max-width: 600px; padding: 0 15px;">
+        <div class="native-ad-box">
+            <script async="async" data-cfasync="false" src="https://pl31539143.profitableratecpmnetwork.com/55746ba7485caf30b218505cb537bed7/invoke.js"></script>
+            <div id="container-55746ba7485caf30b218505cb537bed7"></div>
+        </div>
+    </div>
+
+    <!-- Adsterra Banner Ad (Bottom 320x50) -->
+    <div class="ad-banner-bottom">
+        <script>
+          atOptions = {
+            'key' : '2d64ab87de77d08d8a4b7e73d658f5de',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/2d64ab87de77d08d8a4b7e73d658f5de/invoke.js"></script>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal" id="winModal">
+        <div class="modal-content">
+            <h2>Level Cleared! 🎉</h2>
+            <p>Fantastic job! Ready for the next challenge?</p>
+            <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="nextLevel()">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        const PALETTE = [
+            '#ff4757', '#2ed573', '#1e90ff', '#ffa502', 
+            '#9b59b6', '#00d2d3', '#ff6b81', '#7bed9f', 
+            '#70a1ff', '#eccc68', '#ff7f50', '#a4b0be'
+        ];
+
+        let currentLevel = parseInt(localStorage.getItem('water_sort_level')) || 1;
+        let tubes = [];
+        let historyState = [];
+        let selectedTubeIndex = null;
+        const TUBE_CAPACITY = 4;
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'pour') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.15);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.15);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+            } else if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(450, audioCtx.currentTime + 0.1);
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime + 0.2);
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        function generateLevel(levelNum) {
+            let colorCount = Math.min(3 + Math.floor(levelNum / 2), PALETTE.length - 2);
+            let emptyCount = 2;
+            let totalTubes = colorCount + emptyCount;
+
+            let fullTubes = [];
+            for (let i = 0; i < colorCount; i++) {
+                let tube = [];
+                for (let j = 0; j < TUBE_CAPACITY; j++) {
+                    tube.push(i);
+                }
+                fullTubes.push(tube);
+            }
+            for (let i = 0; i < emptyCount; i++) {
+                fullTubes.push([]);
+            }
+
+            let shuffleSteps = colorCount * 8 + levelNum * 3;
+            let currentGrid = fullTubes.map(t => [...t]);
+
+            for (let step = 0; step < shuffleSteps; step++) {
+                let validMoves = [];
+                for (let src = 0; src < totalTubes; src++) {
+                    if (currentGrid[src].length === 0) continue;
+                    for (let dst = 0; dst < totalTubes; dst++) {
+                        if (src === dst) continue;
+                        if (currentGrid[dst].length < TUBE_CAPACITY) {
+                            if (currentGrid[dst].length === 0 || 
+                                currentGrid[dst][currentGrid[dst].length - 1] === currentGrid[src][currentGrid[src].length - 1]) {
+                                validMoves.push({src, dst});
+                            }
+                        }
+                    }
+                }
+
+                if (validMoves.length > 0) {
+                    let move = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    let color = currentGrid[move.src].pop();
+                    currentGrid[move.dst].push(color);
+                }
+            }
+
+            if (checkIfWon(currentGrid)) {
+                return generateLevel(levelNum + 1);
+            }
+
+            return currentGrid;
+        }
+
+        function initGame() {
+            document.getElementById('levelIndicator').innerText = `Level ${currentLevel}`;
+            tubes = generateLevel(currentLevel);
+            historyState = [];
+            selectedTubeIndex = null;
+            document.getElementById('winModal').classList.remove('active');
+            renderBoard();
+        }
+
+        function renderBoard() {
+            const grid = document.getElementById('tubesGrid');
+            grid.innerHTML = '';
+
+            tubes.forEach((tube, index) => {
+                const tubeEl = document.createElement('div');
+                tubeEl.className = `tube ${selectedTubeIndex === index ? 'selected' : ''}`;
+                tubeEl.onclick = () => handleTubeClick(index);
+
+                for (let i = 0; i < TUBE_CAPACITY; i++) {
+                    const unit = document.createElement('div');
+                    unit.className = 'color-unit';
+                    if (i < tube.length) {
+                        unit.style.backgroundColor = PALETTE[tube[i]];
+                    } else {
+                        unit.style.backgroundColor = 'transparent';
+                    }
+                    tubeEl.appendChild(unit);
+                }
+                grid.appendChild(tubeEl);
+            });
+        }
+
+        function handleTubeClick(index) {
+            if (selectedTubeIndex === null) {
+                if (tubes[index].length > 0) {
+                    selectedTubeIndex = index;
+                    renderBoard();
+                }
+            } else {
+                if (selectedTubeIndex === index) {
+                    selectedTubeIndex = null;
+                    renderBoard();
+                } else {
+                    if (isValidPour(selectedTubeIndex, index)) {
+                        saveState();
+                        pourWater(selectedTubeIndex, index);
+                        selectedTubeIndex = null;
+                        renderBoard();
+                        playSound('pour');
+
+                        if (checkIfWon(tubes)) {
+                            setTimeout(() => {
+                                playSound('win');
+                                document.getElementById('winModal').classList.add('active');
+                            }, 300);
+                        }
+                    } else {
+                        if (tubes[index].length > 0) {
+                            selectedTubeIndex = index;
+                            renderBoard();
+                        } else {
+                            selectedTubeIndex = null;
+                            renderBoard();
+                        }
+                    }
+                }
+            }
+        }
+
+        function isValidPour(src, dst) {
+            if (tubes[src].length === 0) return false;
+            if (tubes[dst].length === TUBE_CAPACITY) return false;
+            if (tubes[dst].length === 0) return true;
+
+            let srcTopColor = tubes[src][tubes[src].length - 1];
+            let dstTopColor = tubes[dst][tubes[dst].length - 1];
+
+            return srcTopColor === dstTopColor;
+        }
+
+        function pourWater(src, dst) {
+            let colorToMove = tubes[src][tubes[src].length - 1];
+            let count = 0;
+
+            for (let i = tubes[src].length - 1; i >= 0; i--) {
+                if (tubes[src][i] === colorToMove) {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+
+            let spaceAvailable = TUBE_CAPACITY - tubes[dst].length;
+            let transferCount = Math.min(count, spaceAvailable);
+
+            for (let i = 0; i < transferCount; i++) {
+                tubes[src].pop();
+                tubes[dst].push(colorToMove);
+            }
+        }
+
+        function saveState() {
+            historyState.push(tubes.map(t => [...t]));
+            if (historyState.length > 10) historyState.shift();
+        }
+
+        function undoMove() {
+            if (historyState.length > 0) {
+                tubes = historyState.pop();
+                selectedTubeIndex = null;
+                renderBoard();
+            }
+        }
+
+        function restartLevel() {
+            initGame();
+        }
+
+        function skipLevel() {
+            currentLevel++;
+            localStorage.setItem('water_sort_level', currentLevel);
+            initGame();
+        }
+
+        function nextLevel() {
+            currentLevel++;
+            localStorage.setItem('water_sort_level', currentLevel);
+            initGame();
+        }
+
+        function checkIfWon(currentState) {
+            for (let tube of currentState) {
+                if (tube.length > 0) {
+                    if (tube.length !== TUBE_CAPACITY) return false;
+                    let firstColor = tube[0];
+                    for (let color of tube) {
+                        if (color !== firstColor) return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        window.onload = () => {
+            initGame();
+        };
+    </script>
+</body>
+</html>
